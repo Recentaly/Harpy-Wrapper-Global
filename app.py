@@ -27,7 +27,7 @@ from time import sleep
 import yaml
 
 # read the config file
-with open('modules\\config.yaml', 'r') as file:
+with open('modules/config.yaml', 'r') as file:
 
     # load the config file
     config = yaml.load(file, Loader=yaml.FullLoader)
