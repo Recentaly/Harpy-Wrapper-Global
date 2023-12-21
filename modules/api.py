@@ -22,10 +22,12 @@ class Api:
 
         self.headers = compile_headers(auth=auth)
 
-    def generate(self, messages: Messages | list, settings: Settings | dict = {"max_new_token": 60, "model": "llama-2-7b-chat", "temperature": 0.7}) -> Output | str:
+    def generate(self, messages: Messages | list, settings: Settings | dict = {"max_new_token": 60, "model": "sparrow-beta", "temperature": 0.7, "is_lore_supported": False, "character_id": "2e6bab2b-1bcf-4274-9012-edddffb0f098"}) -> Output | str:
 
         # compile the data
         data = {
+            "character_id": settings.get('character_id', '2e6bab2b-1bcf-4274-9012-edddffb0f098'),
+            "is_lore_supported": settings.get('is_lore_supported', False),
             "temperature": settings['temperature'],
             "messages": messages,
             "max_new_token": settings['max_new_token'],
