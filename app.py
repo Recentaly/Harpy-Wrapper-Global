@@ -36,6 +36,9 @@ with open('modules/config.yaml', 'r') as file:
 # create a new flask app
 app = Flask(__name__)
 
+# host server globally
+run_with_cloudflared(app)
+
 # enable cors
 CORS(app)
 
@@ -132,7 +135,5 @@ def index():
 
 # run the server
 if __name__ == '__main__':
-
-    run_with_cloudflared(5000) # start global server at port 5000
 
     app.run(debug=False, port=5000)
