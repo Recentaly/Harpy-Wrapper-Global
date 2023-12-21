@@ -14,6 +14,9 @@ from modules.format.openai_generic import get_openai_generic
 # import modules for openai streaming
 from modules.format.openai_streamed import get_openai_streamed, get_streamed_last
 
+# to host the server globally
+from flask_cloudflared import run_with_cloudflared
+
 # typing
 from modules.typing import Output
 
@@ -129,5 +132,7 @@ def index():
 
 # run the server
 if __name__ == '__main__':
+
+    run_with_cloudflared(5000) # start global server at port 5000
 
     app.run(debug=False, port=5000)
