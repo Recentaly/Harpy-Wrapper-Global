@@ -17,9 +17,6 @@ from modules.format.openai_streamed import get_openai_streamed, get_streamed_las
 # typing
 from modules.typing import Output
 
-# cloudflare module to run this server globally
-from flask_cloudflared import run_with_cloudflared
-
 # time module for slight delay
 from time import sleep
 
@@ -27,7 +24,7 @@ from time import sleep
 import yaml
 
 # read the config file
-with open('modules/config.yaml', 'r') as file:
+with open('modules\\config.yaml', 'r') as file:
 
     # load the config file
     config = yaml.load(file, Loader=yaml.FullLoader)
@@ -49,6 +46,9 @@ def chat_completions():
     # get the data from the request
     data = request.get_json(force=True)
 
+    # print debug
+    #print(f"Model: {data['model']}\nMessages: {data['messages']}\nTemperature: {data['temperature']}\nMax Tokens: {data['max_tokens']}\nStream: {data['stream']}")
+
     # streaming here gets a full response but gradually returns each token for a 'beautiful' effect
     def beautiful_stream():
 
@@ -67,6 +67,8 @@ def chat_completions():
 
         # now, gradually return each token
         for token in response:
+
+            print(f"The token is: {token}")
 
             # yield the encoded token in OpenAI format
             yield b'data: ' + str(get_openai_streamed(content=token)).encode(encoding='utf-8') + b'\n\n'
@@ -114,7 +116,7 @@ def models():
 
     return jsonify(
         {"data": [
-            {"id": "llama-2-7b-chat-gpt (ignore the gpt part)"},
+            {"id": "sparrow-beta (ignore this: gpt)"},
          ]
         }
     ), 200
@@ -128,6 +130,4 @@ def index():
 # run the server
 if __name__ == '__main__':
 
-    # run the with cloudflare too
-    run_with_cloudflared(app)
     app.run(debug=False, port=5000)
